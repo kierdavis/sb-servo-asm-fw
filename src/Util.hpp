@@ -8,6 +8,9 @@ namespace Util {
   // Version string.
   extern const char * const VERSION PROGMEM;
 
+  // Read a character from the serial port, blocking if no data is available.
+  uint8_t readSerialBlocking();
+
   void resetIO();
 
   // Measures a distance using an ultrasonic sensor module connected to the

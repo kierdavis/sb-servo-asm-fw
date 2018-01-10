@@ -7,6 +7,17 @@
 
 const char * const Util::VERSION PROGMEM = "SourceBots GPIO/servo v0.1.0";
 
+// Read a character from the serial port, blocking if no data is available.
+uint8_t Util::readSerialBlocking() {
+  int x;
+  do {
+    // Serial.read returns a value between 0 and 255 if at least one byte is
+    // available in the receive buffer or -1 if no data is available.
+    x = Serial.read();
+  } while (x == -1);
+  return (uint8_t) x;
+}
+
 void Util::resetIO() {
   // Set all digital pins to inputs.
   for (uint8_t pin = 2; pin <= 13; pin++) {
