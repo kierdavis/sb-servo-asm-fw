@@ -6,7 +6,7 @@ jobs:
     steps:
       - run:
           name: Install dependencies of CI script
-          command: nix-env -i git
+          command: nix-env -Q -i git
       - checkout:
           name: Checkout project source
       - run:
