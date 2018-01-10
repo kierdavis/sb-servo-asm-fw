@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: nixos/nix:latest
+    steps:
+      - run:
+          name: Install dependencies of CI script
+          command: nix-env -i git
+      - checkout:
+          name: Checkout project source
+      - run:
+          name: Checkout submodules
+          command: |
+            git submodule sync
+            git submodule update --init --recursive
+      - run:
+          name: Compile project
+          command: nix-build
+      - run:
+          name: Rearrange build artifacts
+          command: |
+            mkdir -p /artifacts
+            cp result/* /artifacts
+      - store_artifacts:
+          name: Store build artifacts
+          path: /artifacts
