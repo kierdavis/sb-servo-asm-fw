@@ -4,6 +4,11 @@
 # Name of project (determines name of generated .elf and .hex files).
 TARGET = servo-asm-fw
 
+# Libraries used by the project, and their dependencies.
+# Note that Arduino-Makefile only auto-detects direct dependencies of the
+# project, not indirect dependencies.
+ARDUINO_LIBS = Adafruit_PWMServoDriver Wire
+
 # Pathname of this Makefile.
 # See also: https://www.gnu.org/software/make/manual/make.html#Special-Variables
 SELF := $(realpath $(lastword $(MAKEFILE_LIST)))
@@ -14,6 +19,9 @@ SRC_DIR ?= $(FIRMWARE_DIR)/src
 
 # Path to the checkout of the Arduino-Makefile repository.
 ARDMK_DIR ?= $(FIRMWARE_DIR)/Arduino-Makefile
+
+# Directory containing Arduino libraries used by this project.
+USER_LIB_PATH ?= $(FIRMWARE_DIR)/libraries
 
 # Path to Arduino installation.
 ARDUINO_DIR ?= /usr/share/arduino

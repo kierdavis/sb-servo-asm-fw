@@ -1,3 +1,6 @@
 [submodule "Arduino-Makefile"]
 	path = Arduino-Makefile
 	url = https://github.com/sudar/Arduino-Makefile.git
+[submodule "libraries/Adafruit_PWMServoDriver"]
+	path = libraries/Adafruit_PWMServoDriver
+	url = https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library.git
