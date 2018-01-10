@@ -6,7 +6,14 @@ jobs:
     steps:
       - run:
           name: Install dependencies of CI script
-          command: nix-env -Q -i git
+          command: nix-env -Q -i git rsync
+      - run:
+          name: Make SSL certificates available to artifact uploader
+          command: |
+            src=$(nix-build '<nixpkgs>' -A cacert --no-out-link)/etc/ssl/certs
+            dest=/etc/ssl/certs
+            mkdir -p $dest
+            cp -R $src/* $dest
       - checkout:
           name: Checkout project source
       - run:
