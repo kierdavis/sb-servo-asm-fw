@@ -15,10 +15,17 @@ public:
   // the character code used to encode the command in the wire protocol. This
   // means that parsing a Command is just a cast (a zero-cost operation).
   enum class Command : char {
+    ANALOG_READ = 'a',
     NO_OPERATION = 'n',
-    DIGITAL_READ = 'r',
     DIGITAL_WRITE_HIGH = 'h',
+    DIGITAL_WRITE_INPUT = 'i',
     DIGITAL_WRITE_LOW = 'l',
+    DIGITAL_WRITE_PULLUP = 'p',
+    DIGITAL_READ = 'r',
+    SERVO_WRITE = 's',
+    ULTRASOUND_READ = 'u',
+    VERSION = 'v',
+    RESET = 'z',
   };
 
   // The type of a parsed request argument (an usigned 16-bit integer).

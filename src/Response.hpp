@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 
-namespace Response {
+class Response {
+public:
   enum class Status : char {
     // Success.
     SUCCESS = 's',
@@ -13,20 +14,48 @@ namespace Response {
     FAILURE_RETRY = 'r',
     // Failure. Server recommends the client give up immediately.
     FAILURE_PANIC = 'p',
+    // If received by the client, indicates a bug in the firmware. Can be
+    // considered alike to a failed assertion.
+    BUG = '!',
   };
 
   enum class FailureReason : char {
-    // Not enough arguments for given command.
-    NOT_ENOUGH_ARGUMENTS = 'a',
+    // Invalid argument.
+    INVALID_ARGUMENT = 'a',
     // Invalid command character.
     INVALID_COMMAND = 'c',
+    // Not enough arguments for given command.
+    NOT_ENOUGH_ARGUMENTS = 'n',
     // Other request syntax error.
     SYNTAX = 's',
   };
 
-  void send(Status status, char *payloadPointer, uint8_t payloadLength);
+  enum class BugReason : char {
+    RESPONSE_UNINITIALISED = 'u',
+    RESPONSE_PAYLOAD_TOO_LONG = 'l',
+  };
 
-  void sendFailure(Status status, FailureReason reason);
-}
+  static const uint8_t MAX_PAYLOAD_LENGTH = 32;
+
+  Response();
+  void reset();
+
+  void set(Status status);
+  void setSuccess();
+  void setFailureRetry(FailureReason reason);
+  void setFailurePanic(FailureReason reason);
+  void setBug(BugReason reason);
+
+  void appendChar(char character);
+  void appendUint16(uint16_t value);
+  void appendPgmString(const char *string);
+
+  void send();
+
+protected:
+  Status _status;
+  uint8_t _payloadLength;
+  char _payload[MAX_PAYLOAD_LENGTH];
+};
 
 #endif

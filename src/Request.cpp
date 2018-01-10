@@ -26,10 +26,6 @@ Request::Argument Request::argument(uint8_t index) {
 void Request::reset(Request::Command command) {
   _command = command;
   _numArguments = 0;
-  // Set all arguments to zero.
-  for (uint8_t i = 0; i < Request::MAX_NUM_ARGUMENTS; i++) {
-    _arguments[i] = 0;
-  }
 }
 
 bool Request::addArgument(Argument value) {
