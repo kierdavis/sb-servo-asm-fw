@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdint.h>
 #include <Arduino.h>
 
@@ -10,6 +11,10 @@
 
 // Baud rate for serial communication.
 static const unsigned long SERIAL_BAUD_RATE = 9600;
+
+// Whether to echo received serial characters back to the client. Useful when
+// being used interactively.
+static const bool ECHO = true;
 
 void setup() {
   Util::resetIO();
@@ -37,6 +42,7 @@ void loop() {
   // parsed.
   do {
     char c = (char) Util::readSerialBlocking();
+    if (ECHO) { Serial.write(c); }
     result = RequestParser::feed(c);
   } while (result == RequestParser::FeedResult::CONTINUE);
 
