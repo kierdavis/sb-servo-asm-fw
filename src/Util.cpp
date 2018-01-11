@@ -45,7 +45,14 @@ uint16_t Util::readUltrasound(uint8_t triggerPin, uint8_t echoPin) {
   pinMode(echoPin, INPUT);
 
   // Read return pulse.
-  uint16_t pulseDuration = pulseInLong(echoPin, HIGH);
+  // Timeout is in microseconds. A value of 50000 (50ms) gives a maximum range
+  // of 8.5m, far beyond the capability of the type of ultrasound module
+  // supported by the kit. In this time, at most 48 characters might be
+  // received over the serial connection (assuming 9600 baud), well within the
+  // receive buffer length of 256 bytes. However if the baud rate is increase,
+  // this timeout may need to be decreased in order to avoid dropping bytes.
+  static const unsigned long TIMEOUT = 50000;
+  uint16_t pulseDuration = pulseInLong(echoPin, HIGH, TIMEOUT);
 
   return pulseDuration;
 }
