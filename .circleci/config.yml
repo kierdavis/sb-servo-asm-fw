@@ -6,14 +6,24 @@ jobs:
     steps:
       - run:
           name: Install dependencies of CI script
-          command: nix-env -Q -i git
-      - run:
-          name: Make SSL certificates available to artifact uploader
           command: |
-            src=$(nix-build '<nixpkgs>' -A cacert --no-out-link)/etc/ssl/certs
+            nixflags="--no-build-output --no-out-link --show-trace --timeout 300"
+
+            # Install git into a place where circleci's "checkout" step can find
+            # it.
+            git_pkg=$(nix-build $nixflags '<nixpkgs>' -A git)
+            src=$git_pkg/bin/git
+            dest=/usr/bin/git
+            mkdir -p $(dirname $dest)
+            ln -s $src $dest
+
+            # Install SSL certificates into a place where circleci's
+            # "store_artifacts" step can find them.
+            cacert_pkg=$(nix-build $nixflags '<nixpkgs>' -A cacert)
+            src=$cacert_pkg/etc/ssl/certs
             dest=/etc/ssl/certs
-            mkdir -p $dest
-            cp -R $src/* $dest
+            mkdir -p $(dirname $dest)
+            ln -s $src $dest
       - checkout:
           name: Checkout project source
       - run:
