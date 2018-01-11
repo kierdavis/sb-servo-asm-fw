@@ -23,7 +23,7 @@ jobs:
             git submodule update --init --recursive
       - run:
           name: Compile project
-          command: nix-build --arg withUploadSupport false --arg withMonitorSupport false
+          command: nix-build
       - run:
           name: Rearrange build artifacts
           command: |
