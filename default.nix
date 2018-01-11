@@ -6,9 +6,11 @@ let defaultNixpkgs = import <nixpkgs> {}; in
 , avrgcc       ? defaultNixpkgs.avrgcc
 , avrlibc      ? defaultNixpkgs.avrlibc
 , python       ? defaultNixpkgs.python
+, screen       ? defaultNixpkgs.screen
 , stdenv       ? defaultNixpkgs.stdenv
 
 , withUploadSupport ? true
+, withMonitorSupport ? true
 }:
 
 let
@@ -43,7 +45,8 @@ stdenv.mkDerivation {
     # avr-gcc-ar from avrgcc is a wrapper around avr-ar from avrbinutils, and
     # needs to locate it at runtime.
     avrbinutils
-  ] ++ stdenv.lib.optional withUploadSupport pythonWithPyserial;
+  ] ++ stdenv.lib.optional withUploadSupport pythonWithPyserial
+    ++ stdenv.lib.optional withMonitorSupport screen;
 
   phases = "unpackPhase patchPhase buildPhase installPhase";
 

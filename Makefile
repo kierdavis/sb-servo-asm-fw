@@ -67,4 +67,8 @@ CXXFLAGS_STD ?= -std=gnu++14
 # Source files
 LOCAL_CPP_SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 
+# Serial baud rate for "make monitor".
+# This must match SERIAL_BAUD_RATE in main.cpp.
+MONITOR_BAUDRATE := 9600
+
 include $(ARDMK_DIR)/Arduino.mk
