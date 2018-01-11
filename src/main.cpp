@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdint.h>
+#include <avr/wdt.h>
 #include <Arduino.h>
 
 #include "Handlers.hpp"
@@ -17,6 +18,12 @@ static const unsigned long SERIAL_BAUD_RATE = 9600;
 static const bool ECHO = true;
 
 void setup() {
+  // Turn on watchdog timer, which resets the CPU unless wdt_reset is
+  // periodically called (i.e. it detects CPU hangs).
+  // The ultrasound sensor measurement may take up to 50ms, so we pick the
+  // lowest watchdog timeout that is greater than that.
+  wdt_enable(WDTO_60MS);
+
   Serial.begin(SERIAL_BAUD_RATE);
 
   servoShield.begin();
@@ -26,6 +33,8 @@ void setup() {
 }
 
 void loop() {
+  wdt_reset();
+
   // Store the Request and Response in static memory rather than on the stack.
   // This can improve optimisation of the code, and should be safe because
   // loop() is never called recursively.

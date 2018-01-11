@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
+#include <avr/wdt.h>
 #include <Arduino.h>
 
 #include "servoShield.hpp"
@@ -11,6 +12,9 @@ const char * const Util::VERSION PROGMEM = "SourceBots GPIO/servo v0.1.0";
 uint8_t Util::readSerialBlocking() {
   int x;
   do {
+    // Reset the watchdog timer, since we may be spinning in this loop for a
+    // few seconds at the least.
+    wdt_reset();
     // Serial.read returns a value between 0 and 255 if at least one byte is
     // available in the receive buffer or -1 if no data is available.
     x = Serial.read();
@@ -51,8 +55,12 @@ uint16_t Util::readUltrasound(uint8_t triggerPin, uint8_t echoPin) {
   // received over the serial connection (assuming 9600 baud), well within the
   // receive buffer length of 256 bytes. However if the baud rate is increase,
   // this timeout may need to be decreased in order to avoid dropping bytes.
+  // Due to the long duration of this function call, we reset the watchdog
+  // timer before and after to prevent an unintentional CPU reset.
   static const unsigned long TIMEOUT = 50000;
+  wdt_reset();
   uint16_t pulseDuration = pulseInLong(echoPin, HIGH, TIMEOUT);
+  wdt_reset();
 
   return pulseDuration;
 }

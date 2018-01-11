@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
+#include <avr/wdt.h>
 #include <Arduino.h>
 
 #include "Response.hpp"
@@ -80,6 +81,10 @@ void Response::appendPgmString(const char *string) {
 }
 
 void Response::send() {
+  // Since it may take up to 38ms to send a maximum length response (36
+  // bytes) over a 9600 baud serial connection, we reset the watchdog timer
+  // before and after.
+  wdt_reset();
   // Items of Response::Status enum have values equal to the corresponding
   // character codes used in the wire encoding, so serialisation is simply
   // a cast.
@@ -92,4 +97,5 @@ void Response::send() {
   }
   Serial.write('\r');
   Serial.write('\n'); // End of response line.
+  wdt_reset();
 }
