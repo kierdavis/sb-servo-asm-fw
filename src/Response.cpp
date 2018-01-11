@@ -90,5 +90,6 @@ void Response::send() {
   for (uint8_t i = 0; i < _payloadLength; i++) {
     Serial.write(_payload[i]);
   }
+  Serial.write('\r');
   Serial.write('\n'); // End of response line.
 }
