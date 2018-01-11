@@ -45,7 +45,7 @@ uint16_t Util::readUltrasound(uint8_t triggerPin, uint8_t echoPin) {
   pinMode(echoPin, INPUT);
 
   // Read return pulse.
-  uint16_t pulseDuration = pulseIn(echoPin, HIGH);
+  uint16_t pulseDuration = pulseInLong(echoPin, HIGH);
 
   return pulseDuration;
 }
