@@ -17,12 +17,12 @@ static const unsigned long SERIAL_BAUD_RATE = 9600;
 static const bool ECHO = true;
 
 void setup() {
-  Util::resetIO();
-
   Serial.begin(SERIAL_BAUD_RATE);
 
   servoShield.begin();
   servoShield.setPWMFreq(SERVO_PWM_FREQ);
+
+  Util::resetIO();
 }
 
 void loop() {
