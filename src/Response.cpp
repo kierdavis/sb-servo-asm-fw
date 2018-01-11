@@ -85,12 +85,12 @@ void Response::send() {
   // bytes) over a 9600 baud serial connection, we reset the watchdog timer
   // before and after.
   wdt_reset();
+  // A '>' marks the start of a response line. Lines without this character are
+  // ignored by the client, allowing diagnostic output to be interspersed.
+  Serial.write('>');
   // Items of Response::Status enum have values equal to the corresponding
   // character codes used in the wire encoding, so serialisation is simply
   // a cast.
-  // A '>' marks the start of a response line. Lines without this character are
-  // ignored by the client, allowing diagnostic output to be interspersed,
-  Serial.write('>');
   Serial.write((char) _status);
   for (uint8_t i = 0; i < _payloadLength; i++) {
     Serial.write(_payload[i]);
