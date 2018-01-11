@@ -2,8 +2,10 @@ let defaultNixpkgs = import <nixpkgs> {}; in
 
 { arduino-core ? defaultNixpkgs.arduino-core
 , avrbinutils  ? defaultNixpkgs.avrbinutils
+, avrdude      ? defaultNixpkgs.avrdude
 , avrgcc       ? defaultNixpkgs.avrgcc
 , avrlibc      ? defaultNixpkgs.avrlibc
+, python       ? defaultNixpkgs.python
 , stdenv       ? defaultNixpkgs.stdenv
 }:
 
@@ -35,6 +37,9 @@ stdenv.mkDerivation {
     # avr-gcc-ar from avrgcc is a wrapper around avr-ar from avrbinutils, and
     # needs to locate it at runtime.
     avrbinutils
+
+    # Required by "make upload".
+    (python.withPackages (pyPkgs: [ pyPkgs.pyserial ]))
   ];
 
   phases = "unpackPhase patchPhase buildPhase installPhase";
@@ -70,6 +75,8 @@ stdenv.mkDerivation {
   AVR_SIZE = "${avrbinutils}/bin/avr-size";
   AVR_NM = "${avrgcc}/bin/avr-gcc-nm";
   AVR_RANLIB = "${avrgcc}/bin/avr-gcc-ranlib";
+  AVRDUDE = "${avrdude}/bin/avrdude";
+  AVRDUDE_CONF = "${avrdude}/etc/avrdude.conf";
 
   # If a nix-shell is started using this derivation, run these commands to
   # set up the environment variables for avrlibc.
