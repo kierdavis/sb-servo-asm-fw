@@ -47,7 +47,7 @@ endif
 BOARD_TAG ?= uno
 
 # C/C++ preprocessor flags
-CPPFLAGS += -I$(SRC_DIR)
+CPPFLAGS += -I$(SRC_DIR) -DSERIAL_RX_BUFFER_SIZE=256
 
 # C compiler flags
 CFLAGS += -Wall -Werror -pedantic -Wno-deprecated-declarations
