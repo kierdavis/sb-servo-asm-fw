@@ -7,6 +7,8 @@ let defaultNixpkgs = import <nixpkgs> {}; in
 , avrlibc      ? defaultNixpkgs.avrlibc
 , python       ? defaultNixpkgs.python
 , stdenv       ? defaultNixpkgs.stdenv
+
+, withUploadSupport ? true
 }:
 
 let
@@ -27,6 +29,10 @@ let
     export CPPFLAGS="-isystem ${avrlibc}/avr/include"
     export LDFLAGS="-B$libdir -L$libdir"
   '';
+
+  pythonWithPyserial = python.withPackages (pyPkgs: [
+    pyPkgs.pyserial
+  ]);
 in
 
 stdenv.mkDerivation {
@@ -37,10 +43,7 @@ stdenv.mkDerivation {
     # avr-gcc-ar from avrgcc is a wrapper around avr-ar from avrbinutils, and
     # needs to locate it at runtime.
     avrbinutils
-
-    # Required by "make upload".
-    (python.withPackages (pyPkgs: [ pyPkgs.pyserial ]))
-  ];
+  ] ++ stdenv.lib.optional withUploadSupport pythonWithPyserial;
 
   phases = "unpackPhase patchPhase buildPhase installPhase";
 
@@ -75,8 +78,8 @@ stdenv.mkDerivation {
   AVR_SIZE = "${avrbinutils}/bin/avr-size";
   AVR_NM = "${avrgcc}/bin/avr-gcc-nm";
   AVR_RANLIB = "${avrgcc}/bin/avr-gcc-ranlib";
-  AVRDUDE = "${avrdude}/bin/avrdude";
-  AVRDUDE_CONF = "${avrdude}/etc/avrdude.conf";
+  AVRDUDE = if withUploadSupport then "${avrdude}/bin/avrdude" else null;
+  AVRDUDE_CONF = if withUploadSupport then "${avrdude}/etc/avrdude.conf" else null;
 
   # If a nix-shell is started using this derivation, run these commands to
   # set up the environment variables for avrlibc.
