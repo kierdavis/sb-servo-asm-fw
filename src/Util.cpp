@@ -18,7 +18,7 @@ uint8_t Util::readSerialBlocking() {
     // Serial.read returns a value between 0 and 255 if at least one byte is
     // available in the receive buffer or -1 if no data is available.
     x = Serial.read();
-  } while (x == -1);
+  } while (x < 0);
   return (uint8_t) x;
 }
 
