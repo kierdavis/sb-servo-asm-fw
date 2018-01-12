@@ -34,6 +34,7 @@ stdenv.mkDerivation {
   buildInputs = [
     # avr-gcc-ar from avrgcc is a wrapper around avr-ar from avrbinutils, and
     # needs to locate it at runtime.
+    # https://github.com/NixOS/nixpkgs/pull/33762 will make this unnecessary.
     avrbinutils
   ];
 
