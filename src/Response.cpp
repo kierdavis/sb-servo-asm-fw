@@ -52,6 +52,10 @@ void Response::appendChar(char c) {
 void Response::appendUint16(uint16_t value) {
   // Sorry, but printf carries a lot of overhead for something as simple as
   // converting a single unsigned number to a string.
+  // Quantification: replacing the following implementation with a call to
+  // snprintf acting directly on the _payload buffer increased the nonvolatile
+  // (Flash) memory usage by 1428 bytes. It did not however affect the
+  // volatile (RAM) usage.
   static const uint16_t weights[4] PROGMEM = {10000, 1000, 100, 10};
   // foundNonzeroDigit is false until we find the first non-zero digit. It
   // controls whether digits are printed. This causes leading zeros to be
