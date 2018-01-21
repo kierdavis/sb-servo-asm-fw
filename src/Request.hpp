@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "config.hpp"
+
 // A Request models a request sent by the client (the Raspberry Pi) to the
 // server (this Arduino) asking the latter to perform some action. Requests
 // consists of a command, which specifies which action to perform, and
@@ -31,10 +33,6 @@ public:
   // The type of a parsed request argument (an usigned 16-bit integer).
   typedef uint16_t Argument;
 
-  // The maximum number of arguments that may be included in a request. This
-  // determines the size of the arguments array.
-  static const uint8_t MAX_NUM_ARGUMENTS = 2;
-
   // Create a new Request with the specified command and no arguments.
   // Arguments can later be added with the addArgument method.
   Request(Command command = Command::NO_OPERATION);
@@ -51,14 +49,14 @@ public:
 
   // Add an argument with the given value. Should only be called by the request
   // parser. Returns true if there was space to add the new argument (i.e.
-  // there were fewer than MAX_NUM_ARGUMENTS arguments already attached to the
-  // Request), false otherwise.
+  // there were fewer than MAX_REQUEST_NUM_ARGUMENTS arguments already attached
+  // to the Request), false otherwise.
   bool addArgument(Argument value);
 
 protected:
   Command _command;
   uint8_t _numArguments;
-  Argument _arguments[MAX_NUM_ARGUMENTS];
+  Argument _arguments[MAX_REQUEST_NUM_ARGUMENTS];
 };
 
 #endif

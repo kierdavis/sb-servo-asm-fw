@@ -3,6 +3,7 @@
 #include <avr/wdt.h>
 #include <Arduino.h>
 
+#include "config.hpp"
 #include "servoShield.hpp"
 #include "Util.hpp"
 
@@ -49,17 +50,10 @@ uint16_t Util::readUltrasound(uint8_t triggerPin, uint8_t echoPin) {
   pinMode(echoPin, INPUT);
 
   // Read return pulse.
-  // Timeout is in microseconds. A value of 50000 (50ms) gives a maximum range
-  // of 8.5m, far beyond the capability of the type of ultrasound module
-  // supported by the kit. In this time, at most 48 characters might be
-  // received over the serial connection (assuming 9600 baud), well within the
-  // receive buffer length of 256 bytes. However if the baud rate is increased,
-  // this timeout may need to be decreased in order to avoid dropping bytes.
   // Due to the long duration of this function call, we reset the watchdog
   // timer before and after to prevent an unintentional CPU reset.
-  static const unsigned long TIMEOUT = 50000;
   wdt_reset();
-  uint16_t pulseDuration = pulseInLong(echoPin, HIGH, TIMEOUT);
+  uint16_t pulseDuration = pulseInLong(echoPin, HIGH, ULTRASOUND_TIMEOUT);
   wdt_reset();
 
   return pulseDuration;

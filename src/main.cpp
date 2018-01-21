@@ -3,19 +3,13 @@
 #include <avr/wdt.h>
 #include <Arduino.h>
 
+#include "config.hpp"
 #include "Handlers.hpp"
 #include "Request.hpp"
 #include "RequestParser.hpp"
 #include "Response.hpp"
 #include "servoShield.hpp"
 #include "Util.hpp"
-
-// Baud rate for serial communication.
-static const unsigned long SERIAL_BAUD_RATE = 9600;
-
-// Whether to echo received serial characters back to the client. Useful when
-// being used interactively.
-static const bool ECHO = true;
 
 void setup() {
   // Turn on watchdog timer, which resets the CPU unless wdt_reset is

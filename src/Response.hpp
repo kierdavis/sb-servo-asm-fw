@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include "config.hpp"
+
 class Response {
 public:
   enum class Status : char {
@@ -35,8 +37,6 @@ public:
     RESPONSE_PAYLOAD_TOO_LONG = 'l',
   };
 
-  static const uint8_t MAX_PAYLOAD_LENGTH = 32;
-
   Response();
   void reset();
 
@@ -55,7 +55,7 @@ public:
 protected:
   Status _status;
   uint8_t _payloadLength;
-  char _payload[MAX_PAYLOAD_LENGTH];
+  char _payload[MAX_RESPONSE_PAYLOAD_LENGTH];
 };
 
 #endif

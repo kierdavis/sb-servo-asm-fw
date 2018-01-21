@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "config.hpp"
 #include "Request.hpp"
 
 Request::Request(Request::Command command) {
@@ -30,7 +31,7 @@ void Request::reset(Request::Command command) {
 
 bool Request::addArgument(Argument value) {
   uint8_t n = _numArguments;
-  if (n < Request::MAX_NUM_ARGUMENTS) {
+  if (n < MAX_REQUEST_NUM_ARGUMENTS) {
     _arguments[n] = value;
     _numArguments = n + 1;
     return true;

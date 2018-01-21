@@ -3,6 +3,7 @@
 #include <avr/wdt.h>
 #include <Arduino.h>
 
+#include "config.hpp"
 #include "Response.hpp"
 
 Response::Response() {
@@ -39,7 +40,7 @@ void Response::setBug(Response::BugReason reason) {
 
 void Response::appendChar(char c) {
   uint8_t length = _payloadLength;
-  if (length < Response::MAX_PAYLOAD_LENGTH) {
+  if (length < MAX_RESPONSE_PAYLOAD_LENGTH) {
     _payload[length] = c;
     _payloadLength = length + 1;
   }
