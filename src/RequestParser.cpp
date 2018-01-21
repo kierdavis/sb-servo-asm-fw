@@ -109,6 +109,6 @@ RequestParser::FeedResult RequestParser::feed(char c) {
   }
 }
 
-void RequestParser::copyRequestTo(Request *dest) {
-  *dest = currentRequest;
+Request *RequestParser::request() {
+  return &currentRequest;
 }

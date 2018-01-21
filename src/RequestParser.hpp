@@ -17,9 +17,8 @@ while (1) {
   } while (result == RequestParser::FeedResult::CONTINUE);
 
   if (result == RequestParser::FeedResult::SUCCESS) {
-    Request req;
-    RequestParser::copyRequestTo(&req);
-    handleRequest(&req);
+    Request *req = RequestParser::request();
+    handleRequest(req);
   }
   else {
     sendFailureResponse();
@@ -55,12 +54,10 @@ namespace RequestParser {
   // to the parser.
   FeedResult feed(char c);
 
-  // Copies a successfully parsed Request to the given location in memory. This
-  // is advantageous over directly returning the Request, as it allows the
-  // caller have more control over data flow and eliminate unnecessary copies.
-  // Behaviour is undefined if the most recent call to feed did not return
+  // Returns a pointer to the successfully parsed Request. The data pointed to
+  // should only be considered valid if the most recent call to feed returned
   // SUCCESS.
-  void copyRequestTo(Request *dest);
+  Request *request();
 }
 
 #endif

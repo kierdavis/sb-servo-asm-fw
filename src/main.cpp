@@ -35,10 +35,9 @@ void setup() {
 void loop() {
   wdt_reset();
 
-  // Store the Request and Response in static memory rather than on the stack.
+  // Store the Response in static memory rather than on the stack.
   // This can improve optimisation of the code, and should be safe because
   // loop() is never called recursively.
-  static Request req;
   static Response resp;
 
   RequestParser::FeedResult result;
@@ -58,8 +57,8 @@ void loop() {
   // result is now either SUCCESS or FAILURE.
   if (result == RequestParser::FeedResult::SUCCESS) {
     // Dispatch the request to the appropriate handler.
-    RequestParser::copyRequestTo(&req);
-    Handlers::dispatch(&req, &resp);
+    Request *req = RequestParser::request();
+    Handlers::dispatch(req, &resp);
   }
   else {
     // Parsing failed, prepare a failure response.
