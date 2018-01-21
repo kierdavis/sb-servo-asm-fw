@@ -5,11 +5,13 @@
 #include <avr/pgmspace.h>
 
 namespace Util {
-  // Read a character from the serial port, blocking if no data is available.
-  uint8_t readSerialBlocking();
+  namespace Serial {
+    // Read a character from the serial port, blocking if no data is available.
+    uint8_t readBlocking();
 
-  // Write a string stored in program memory to the serial port.
-  void writeStringP(PGM_P str);
+    // Write a string stored in program memory to the serial port.
+    void writeStringP(PGM_P str);
+  }
 
   void resetIO();
 

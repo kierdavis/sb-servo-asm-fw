@@ -25,7 +25,7 @@ void setup() {
   // Send a notification message to the client indicating that initialisation
   // is complete.
   static const char readyStr[] PROGMEM = "Ready.\r\n";
-  Util::writeStringP(readyStr);
+  Util::Serial::writeStringP(readyStr);
 }
 
 void loop() {
@@ -40,7 +40,7 @@ void loop() {
   // Read and parse characters from serial port until a complete request is
   // parsed.
   do {
-    char c = (char) Util::readSerialBlocking();
+    char c = (char) Util::Serial::readBlocking();
     if (ECHO) { Serial.write(c); }
     result = RequestParser::feed(c);
   } while (result == RequestParser::FeedResult::CONTINUE);

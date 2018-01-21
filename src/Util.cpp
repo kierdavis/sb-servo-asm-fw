@@ -8,7 +8,7 @@
 #include "Util.hpp"
 
 // Read a character from the serial port, blocking if no data is available.
-uint8_t Util::readSerialBlocking() {
+uint8_t Util::Serial::readBlocking() {
   int x;
   do {
     // Reset the watchdog timer, since we may be spinning in this loop for a
@@ -16,16 +16,16 @@ uint8_t Util::readSerialBlocking() {
     wdt_reset();
     // Serial.read returns a value between 0 and 255 if at least one byte is
     // available in the receive buffer or -1 if no data is available.
-    x = Serial.read();
+    x = ::Serial.read();
   } while (x < 0);
   return (uint8_t) x;
 }
 
-void Util::writeStringP(PGM_P str) {
+void Util::Serial::writeStringP(PGM_P str) {
   while (1) {
     char c = pgm_read_byte(str);
     if (c == '\0') { break; }
-    Serial.write(c);
+    ::Serial.write(c);
     str++;
   }
 }
