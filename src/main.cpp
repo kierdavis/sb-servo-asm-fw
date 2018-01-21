@@ -1,5 +1,3 @@
-#include <stdbool.h>
-#include <stdint.h>
 #include <avr/wdt.h>
 #include <Arduino.h>
 
