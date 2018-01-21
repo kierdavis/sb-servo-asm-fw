@@ -46,8 +46,11 @@ endif
 # Arduino board model name.
 BOARD_TAG ?= uno
 
-# C/C++ preprocessor flags
-CPPFLAGS += -I$(SRC_DIR) -DSERIAL_RX_BUFFER_SIZE=256
+# C/C++ preprocessor flags.
+# Add the source directory to the search path for header files.
+CPPFLAGS += -I$(SRC_DIR)
+# Increase the size of the Arduino Serial receive buffer to 256 bytes.
+CPPFLAGS += -DSERIAL_RX_BUFFER_SIZE=256
 
 # C compiler flags
 CFLAGS += -Wall -Werror -pedantic -Wno-deprecated-declarations
