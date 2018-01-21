@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <Arduino.h>
 
+#include "config.hpp"
 #include "Handlers.hpp"
 #include "Request.hpp"
 #include "Response.hpp"
@@ -102,7 +103,7 @@ void Handlers::handleUltrasoundRead(Request *req, Response *resp) {
 
 void Handlers::handleVersion(Request *req, Response *resp) {
   resp->setSuccess();
-  resp->appendPgmString(Util::VERSION);
+  resp->appendPgmString(VERSION);
 }
 
 void Handlers::handleReset(Request *req, Response *resp) {

@@ -1,13 +1,10 @@
 #include <stdint.h>
-#include <avr/pgmspace.h>
 #include <avr/wdt.h>
 #include <Arduino.h>
 
 #include "config.hpp"
 #include "servoShield.hpp"
 #include "Util.hpp"
-
-const char * const Util::VERSION PROGMEM = "SourceBots GPIO/servo v0.1.0";
 
 // Read a character from the serial port, blocking if no data is available.
 uint8_t Util::readSerialBlocking() {
