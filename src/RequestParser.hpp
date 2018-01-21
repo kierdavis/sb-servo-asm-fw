@@ -1,6 +1,8 @@
 #ifndef __SERVO_ASM_FW_REQUEST_PARSER_HPP
 #define __SERVO_ASM_FW_REQUEST_PARSER_HPP
 
+#include <stdint.h>
+
 #include "Request.hpp"
 
 /*
@@ -27,14 +29,14 @@ while (1) {
 */
 
 namespace RequestParser {
-  enum class State {
+  enum class State : uint8_t {
     // Next character is the command letter.
     COMMAND,
     // Next character is an argument digit or comma.
     ARGUMENTS,
   };
 
-  enum class FeedResult {
+  enum class FeedResult : uint8_t {
     // A request was successfully parsed. User can call copyRequestTo to get a
     // copy of it. User must then call reset.
     SUCCESS,
