@@ -40,7 +40,7 @@ stdenv.mkDerivation {
 
   phases = "unpackPhase patchPhase buildPhase installPhase";
 
-  # Clean up the build directory, if the project was build in a nix-shell and
+  # Clean up the build directory, if the project was built in a nix-shell and
   # not cleaned up.
   postUnpack = ''
     rm -rf $sourceRoot/build-*
@@ -58,7 +58,7 @@ stdenv.mkDerivation {
 
   ARDUINO_DIR = "${arduino-core}/share/arduino";
 
-  # Since the AVR tools needed by Arduino-Makefile are split across three
+  # Since the AVR tools needed by Arduino-Makefile are split across multiple
   # packages, we can't use AVR_TOOLS_DIR and instead must specify the path
   # to each tool explicitly.
   OVERRIDE_EXECUTABLES = "1";

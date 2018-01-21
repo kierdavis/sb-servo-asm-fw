@@ -31,7 +31,7 @@ ARDUINO_DIR ?= /usr/share/arduino
 AVR_TOOLS_DIR ?= /usr
 
 # Alternatively, defining the environment variable OVERRIDE_EXECUTABLES allows
-# the path to each executable individually.
+# the path to each executable to be specified individually.
 ifdef OVERRIDE_EXECUTABLES
     CC      = $(AVR_CC)
     CXX     = $(AVR_CXX)
