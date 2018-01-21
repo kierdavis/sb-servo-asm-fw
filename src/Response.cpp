@@ -56,24 +56,29 @@ void Response::appendUint16(uint16_t value) {
   // snprintf acting directly on the _payload buffer increased the nonvolatile
   // (Flash) memory usage by 1428 bytes. It did not however affect the
   // volatile (RAM) usage.
-  static const uint16_t weights[4] PROGMEM = {10000, 1000, 100, 10};
-  // foundNonzeroDigit is false until we find the first non-zero digit. It
-  // controls whether digits are printed. This causes leading zeros to be
+  // `foundFirstNonzeroDigit` is false until we find the first non-zero digit.
+  // It controls whether digits are printed. This causes leading zeros to be
   // omitted.
-  bool foundNonzeroDigit = false;
+  bool foundFirstNonzeroDigit = false;
+  char digit;
+  static const uint16_t weights[4] PROGMEM = {10000, 1000, 100, 10};
   for (uint8_t i = 0; i < 4; i++) {
-    char digit = '0';
     uint16_t weight = pgm_read_word(&weights[i]);
+    digit = '0';
     while (value >= weight) {
       digit++;
       value -= weight;
-      foundNonzeroDigit = true;
+      foundFirstNonzeroDigit = true;
     }
-    if (foundNonzeroDigit) {
+    // Now, `value < weight` and `digit` holds the ASCII character for the digit
+    // representing the multiple of `weight` in the original number.
+    if (foundFirstNonzeroDigit) {
       appendChar(digit);
     }
   }
-  appendChar('0' + value);
+  // `value` is now left holding the units (least significant) digit.
+  digit = '0' + value;
+  appendChar(digit);
 }
 
 void Response::appendPgmString(const char *string) {
