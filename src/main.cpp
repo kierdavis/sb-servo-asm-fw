@@ -21,6 +21,11 @@ void setup() {
 
   // Set all GPIO pins to input mode, and switch off all servos.
   Util::resetIO();
+
+  // Send a notification message to the client indicating that initialisation
+  // is complete.
+  static const char readyStr[] PROGMEM = "Ready.\r\n";
+  Util::writeStringP(readyStr);
 }
 
 void loop() {

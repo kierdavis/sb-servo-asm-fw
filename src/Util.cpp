@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <avr/pgmspace.h>
 #include <avr/wdt.h>
 #include <Arduino.h>
 
@@ -18,6 +19,15 @@ uint8_t Util::readSerialBlocking() {
     x = Serial.read();
   } while (x < 0);
   return (uint8_t) x;
+}
+
+void Util::writeStringP(PGM_P str) {
+  while (1) {
+    char c = pgm_read_byte(str);
+    if (c == '\0') { break; }
+    Serial.write(c);
+    str++;
+  }
 }
 
 void Util::resetIO() {
