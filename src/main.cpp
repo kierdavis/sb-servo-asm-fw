@@ -16,11 +16,14 @@ void setup() {
   // lowest watchdog timeout that is greater than that.
   wdt_enable(WDTO_60MS);
 
+  // Initialise serial communication with client (Raspberry Pi).
   Serial.begin(SERIAL_BAUD_RATE);
 
+  // Initialise the servo shield.
   servoShield.begin();
   servoShield.setPWMFreq(SERVO_PWM_FREQ);
 
+  // Set all GPIO pins to input mode, and switch off all servos.
   Util::resetIO();
 }
 
