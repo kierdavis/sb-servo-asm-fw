@@ -35,16 +35,11 @@ void setup() {
 void loop() {
   wdt_reset();
 
-  // Store the Response in static memory rather than on the stack.
-  // This can improve optimisation of the code, and should be safe because
-  // loop() is never called recursively.
-  static Response resp;
-
+  Response resp;
   RequestParser::FeedResult result;
 
-  // Reset states for this request.
+  // Reset request parser state for this request.
   RequestParser::reset();
-  resp.reset();
 
   // Read and parse characters from serial port until a complete request is
   // parsed.
