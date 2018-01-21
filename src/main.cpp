@@ -10,11 +10,8 @@
 #include "Util.hpp"
 
 void setup() {
-  // Turn on watchdog timer, which resets the CPU unless wdt_reset is
-  // periodically called (i.e. it detects CPU hangs).
-  // The ultrasound sensor measurement may take up to 50ms, so we pick the
-  // lowest watchdog timeout that is greater than that.
-  wdt_enable(WDTO_60MS);
+  // Turn on watchdog timer.
+  wdt_enable(WATCHDOG_TIMEOUT);
 
   // Initialise serial communication with client (Raspberry Pi).
   Serial.begin(SERIAL_BAUD_RATE);

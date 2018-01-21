@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <avr/pgmspace.h>
+#include <avr/wdt.h>
 
 // Baud rate for serial communication.
 // The current value of 9600 is pretty slow and could probably be increased.
@@ -35,6 +36,13 @@ static const uint8_t MAX_REQUEST_NUM_ARGUMENTS = 2;
 // The maximum number of bytes that may be included in a response's payload.
 // This determines the size of the payload buffer.
 static const uint8_t MAX_RESPONSE_PAYLOAD_LENGTH = 32;
+
+// Timeout of watchdog timer, which resets the CPU unless wdt_reset is
+// periodically called (i.e. it detects CPU hangs). Valid values are constants
+// defined in avr/wdt.h.
+// The ultrasound sensor measurement may take up to 50ms, so we pick the lowest
+// watchdog timeout that is greater than that.
+static const uint8_t WATCHDOG_TIMEOUT = WDTO_60MS;
 
 // Version string. Value defined in config.cpp.
 extern const char * const VERSION PROGMEM;
