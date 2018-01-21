@@ -53,6 +53,19 @@ CPPFLAGS += -I$(SRC_DIR)
 CPPFLAGS += -DSERIAL_RX_BUFFER_SIZE=256
 
 # C compiler flags
+# -Wno-deprecated-declarations is there to work around a quirk of
+# Arduino-Makefile and avr/pgmspace.h.
+# When the macro __PROG_TYPES_COMPAT__ defined, pgmspace.h exposes an older
+# version of its API, which raises deprecation warnings when it is used. Some
+# symbols (e.g. PGM_P) are shared between both the old and new APIs, which means
+# that code written against the new API will raise bogus deprecation warnings if
+# these symbols are used while __PROG_TYPES_COMPAT__ is defined. Annoyingly,
+# Arduino-Makefile defines __PROG_TYPES_COMPAT__ and does not currently
+# provide a way to disable it, causing us to experience warnings when we use
+# PGM_P and thus resulting in compilation failure because of -Werror.
+# An upstream PR, https://github.com/sudar/Arduino-Makefile/pull/546, resolves
+# this by removing __PROG_TYPES_COMPAT__ from Arduino-Makefile's default
+# behaviour.
 CFLAGS += -Wall -Werror -pedantic -Wno-deprecated-declarations
 
 # C++ compiler flags
