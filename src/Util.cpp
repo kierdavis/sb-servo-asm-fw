@@ -53,7 +53,7 @@ uint16_t Util::readUltrasound(uint8_t triggerPin, uint8_t echoPin) {
   // of 8.5m, far beyond the capability of the type of ultrasound module
   // supported by the kit. In this time, at most 48 characters might be
   // received over the serial connection (assuming 9600 baud), well within the
-  // receive buffer length of 256 bytes. However if the baud rate is increase,
+  // receive buffer length of 256 bytes. However if the baud rate is increased,
   // this timeout may need to be decreased in order to avoid dropping bytes.
   // Due to the long duration of this function call, we reset the watchdog
   // timer before and after to prevent an unintentional CPU reset.
