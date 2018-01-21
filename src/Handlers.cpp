@@ -103,7 +103,7 @@ void Handlers::handleUltrasoundRead(Request *req, Response *resp) {
 
 void Handlers::handleVersion(Request *req, Response *resp) {
   resp->setSuccess();
-  resp->appendPgmString(VERSION);
+  resp->appendStringP(VERSION);
 }
 
 void Handlers::handleReset(Request *req, Response *resp) {

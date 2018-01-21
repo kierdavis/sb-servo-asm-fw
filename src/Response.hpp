@@ -49,7 +49,7 @@ public:
 
   void appendChar(char character);
   void appendUint16(uint16_t value);
-  void appendPgmString(PGM_P string);
+  void appendStringP(PGM_P string);
 
   void send();
 

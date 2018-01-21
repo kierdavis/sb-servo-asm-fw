@@ -81,7 +81,7 @@ void Response::appendUint16(uint16_t value) {
   appendChar(digit);
 }
 
-void Response::appendPgmString(PGM_P string) {
+void Response::appendStringP(PGM_P string) {
   while (1) {
     char c = pgm_read_byte(string);
     if (c == '\0') { break; }
