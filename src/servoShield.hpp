@@ -5,4 +5,6 @@
 
 extern Adafruit_PWMServoDriver servoShield;
 
+void initServoShield();
+
 #endif

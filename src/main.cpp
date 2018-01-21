@@ -20,8 +20,7 @@ void setup() {
   Serial.begin(SERIAL_BAUD_RATE);
 
   // Initialise the servo shield.
-  servoShield.begin();
-  servoShield.setPWMFreq(SERVO_PWM_FREQ);
+  initServoShield();
 
   // Set all GPIO pins to input mode, and switch off all servos.
   Util::resetIO();
