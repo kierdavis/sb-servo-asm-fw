@@ -2,6 +2,7 @@
 #define __SERVO_ASM_FW_RESPONSE_HPP
 
 #include <stdint.h>
+#include <avr/pgmspace.h>
 
 #include "config.hpp"
 
@@ -48,7 +49,7 @@ public:
 
   void appendChar(char character);
   void appendUint16(uint16_t value);
-  void appendPgmString(const char *string);
+  void appendPgmString(PGM_P string);
 
   void send();
 
