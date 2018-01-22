@@ -97,6 +97,12 @@ static void finish() {
 }
 
 RequestParser::FeedResult RequestParser::feed(char c) {
+  if (c == '\0') {
+    // Reset the parser state.
+    RequestParser::reset();
+    return RequestParser::FeedResult::CONTINUE;
+  }
+
   if (c == '\n') {
     // End of a request.
     finish();
