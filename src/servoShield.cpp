@@ -3,7 +3,7 @@
 #include "config.hpp"
 #include "servoShield.hpp"
 
-Adafruit_PWMServoDriver servoShield;
+Adafruit_PWMServoDriver servoShield(SERVO_SHIELD_ADDR);
 
 void initServoShield() {
   servoShield.begin();

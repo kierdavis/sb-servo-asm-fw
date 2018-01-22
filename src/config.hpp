@@ -15,6 +15,11 @@ static const unsigned long SERIAL_BAUD_RATE = 9600;
 // for controlling servos, in Hertz. 50 Hz is standard.
 static const float SERVO_PWM_FREQ = 50;
 
+// The 7-bit I²C address of the servo shield's PWM chip. The default is 0x40;
+// however the lower 6 bits of this can be configured using the solder jumpers
+// on the shield.
+static const uint8_t SERVO_SHIELD_ADDR = 0x40;
+
 // The maximum time we will spend waiting for the return pulse from an
 // ultrasound sensor, in microseconds.
 // A value of 50000 (50ms) gives a maximum range of 8.5m, far beyond the
